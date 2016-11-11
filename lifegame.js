@@ -32,6 +32,7 @@ function Klick() {
         return (index % 3 == 0 ? rows.push([key])
                 : rows[rows.length-1].push(key)) && rows;
     }, []);
+    console.log('**************************');
     console.log(masss);
     /*var new_mass = new Array(10).fill(0).map(function(){return new Array(10).fill(0)});
     new_mass = Scan_mass(mass, new_mass); //сканируем текущее поле и генерим новое
