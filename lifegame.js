@@ -28,10 +28,12 @@ function Klick() {
     var mass= Array.prototype.slice.call( elems );
     console.log(mass);
 
-    mass.reduce(function(rows, elem, index){
-       elem.tagName == 'BR' ? console.log('это пробел ' + elem.tagName) : console.log('это див ' + elem.tagName);
+    var sum = [0, 1, 2, 3, 4].reduce(function(previousValue, currentValue, index, array) {
+        return previousValue + currentValue;
+       /*elem.tagName == 'BR' ? console.log('это пробел ' + elem.tagName)
+                            : console.log('это див ' + elem.tagName);*/
     });
-
+    console.log(sum);
     console.log('**************************');
 
 
