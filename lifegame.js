@@ -28,19 +28,22 @@ function Klick() {
     var mass= Array.prototype.slice.call( elems );
     console.log(mass);
 
-    var masss = mass.reduce(function (rows, key, index) {
-        return (index % 3 == 0 ? rows.push([key])
-                : rows[rows.length-1].push(key)) && rows;
-    }, []);
+    var masss = mass.reduce(function(rows, elem, index,){
+        return (elem.tagName == 'BR' ?  : 1);
+    });
+
+    /*var masss = mass.reduce(function(rows, elem, index){
+       console.log('elem=' + elem.tagName + ' index=' + index);
+    });*/
+
     console.log('**************************');
     console.log(masss);
-    /*var new_mass = new Array(10).fill(0).map(function(){return new Array(10).fill(0)});
-    new_mass = Scan_mass(mass, new_mass); //сканируем текущее поле и генерим новое
-    new_mass.map(function(str, i){mass[i] = str.slice(0);}); //обновляем данные
-    new_mass.map(function(str){str.fill(0);}); //обнуляем временную память
-    Print(mass);
-    console.log(mass);
-    console.log('**************************');*/
+
+
+    /*var masss = mass.reduce(function (rows, key, index) {
+        return (index % 3 == 0 ? rows.push([key])
+                : rows[rows.length-1].push(key)) && rows;
+    }, []);*/
 }
 
 function Scan_mass(mass, new_mass) { //сканируем и генерим следующее поле
