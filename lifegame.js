@@ -28,16 +28,12 @@ function Klick() {
     var mass= Array.prototype.slice.call( elems );
     console.log(mass);
 
-    var masss = mass.reduce(function(rows, elem, index,){
-        return (elem.tagName == 'BR' ?  : 1);
+    mass.reduce(function(rows, elem, index){
+       elem.tagName == 'BR' ? console.log('это пробел ' + elem.tagName) : console.log('это див ' + elem.tagName);
     });
 
-    /*var masss = mass.reduce(function(rows, elem, index){
-       console.log('elem=' + elem.tagName + ' index=' + index);
-    });*/
-
     console.log('**************************');
-    console.log(masss);
+
 
 
     /*var masss = mass.reduce(function (rows, key, index) {
