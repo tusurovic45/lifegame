@@ -29,14 +29,15 @@ function Klick() {
     console.log(mass);
 
     var sum = mass.reduce(function (previousValue, currentValue, index) {
-      //  console.log('l=' + previousValue.length + ' index=' + index + ' pV=' + previousValue + ' cV=' + currentValue.tagName);
-        return (index % 3 == 0 ? previousValue.push([currentValue.tagName])
-                : previousValue[previousValue.length-1].push(currentValue.tagName)) && previousValue;
-    }, []);
+        console.log('l=' + previousValue.length + ' index=' + index);
+        console.log('pV=' + previousValue);
+        console.log('cV=' + currentValue.tagName);
+        return ((currentValue.tagName == 'BR')||(previousValue.length == 0) ? (previousValue.push([currentValue.tagName]))
+                : (previousValue[previousValue.length-1].push(currentValue.tagName))) && previousValue;
+    }, [] );
 
     console.log(sum);
     console.log('**************************');
-
 
 
     /*var masss = mass.reduce(function (rows, key, index) {
