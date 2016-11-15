@@ -28,11 +28,12 @@ function Klick() {
     var mass= Array.prototype.slice.call( elems );
     console.log(mass);
 
-    var sum = [0, 1, 2, 3, 4].reduce(function(previousValue, currentValue, index, array) {
-        return previousValue + currentValue;
-       /*elem.tagName == 'BR' ? console.log('это пробел ' + elem.tagName)
-                            : console.log('это див ' + elem.tagName);*/
-    });
+    var sum = mass.reduce(function (previousValue, currentValue, index) {
+      //  console.log('l=' + previousValue.length + ' index=' + index + ' pV=' + previousValue + ' cV=' + currentValue.tagName);
+        return (index % 3 == 0 ? previousValue.push([currentValue.tagName])
+                : previousValue[previousValue.length-1].push(currentValue.tagName)) && previousValue;
+    }, []);
+
     console.log(sum);
     console.log('**************************');
 
