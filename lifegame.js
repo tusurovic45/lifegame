@@ -25,18 +25,24 @@ function Init() {
 function Klick() {
     //var elems = document.getElementById('lifegame').childNodes;
     var elems = document.getElementById('lifegame').getElementsByTagName('*');
-    var mass= Array.prototype.slice.call( elems );
+    var mass = Array.prototype.slice.call(elems);
     console.log(mass);
 
-    var sum = mass.reduce(function (previousValue, currentValue, index) {
+    var XXX = ["asdasd", "dfasfs"];
+    var YYY = XXX.push("dfgdfgsd");
+    console.log("XXX=" + XXX + " YYY=" + YYY);
+
+    /*var sum = mass.reduce(function (previousValue, currentValue, index) {
         console.log('l=' + previousValue.length + ' index=' + index);
         console.log('pV=' + previousValue);
         console.log('cV=' + currentValue.tagName);
-        return ((currentValue.tagName == 'BR')||(previousValue.length == 0) ? (previousValue.push([currentValue.tagName]))
-                : (previousValue[previousValue.length-1].push(currentValue.tagName))) && previousValue;
+        return (
+                (currentValue.tagName == 'BR')||(previousValue.length == 0)
+                    ? (previousValue.push([]))
+                    : (previousValue[previousValue.length-1].push(currentValue.tagName))) && previousValue;
     }, [] );
 
-    console.log(sum);
+    console.log(sum);*/
     console.log('**************************');
 
 
