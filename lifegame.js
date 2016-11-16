@@ -25,31 +25,57 @@ function Init() {
 function Klick() {
     //var elems = document.getElementById('lifegame').childNodes;
     var elems = document.getElementById('lifegame').getElementsByTagName('*');
-    var mass = Array.prototype.slice.call(elems);
+    console.log(elems);
+    console.log('**************************');
+    var mass = Array.prototype.slice.call(elems); //конвертирует массив HTMLColletion в строку
     console.log(mass);
+    console.log('**************************');
 
-    var XXX = ["asdasd", "dfasfs"];
-    var YYY = XXX.push("dfgdfgsd");
-    console.log("XXX=" + XXX + " YYY=" + YYY);
-
-    /*var sum = mass.reduce(function (previousValue, currentValue, index) {
+    /*var masss = mass.reduce(function (previousValue, currentValue, index) { //переделываем строку в двумерный массив для примеры массивы будет состоять из имён тэгов
         console.log('l=' + previousValue.length + ' index=' + index);
         console.log('pV=' + previousValue);
         console.log('cV=' + currentValue.tagName);
-        return (
-                (currentValue.tagName == 'BR')||(previousValue.length == 0)
-                    ? (previousValue.push([]))
-                    : (previousValue[previousValue.length-1].push(currentValue.tagName))) && previousValue;
-    }, [] );
+        return  (currentValue.tagName == 'BR'
+                    ? previousValue.push([])
+                    : previousValue.length == 0 ? previousValue.push([currentValue.tagName])
+                                                : previousValue[previousValue.length-1].push(currentValue.tagName)
+                ) && previousValue;
+    }, [] );*/
+/*
+mass.reduce((previousValue, currentValue, index){..},[] бежим по массиву, [] нужен чтобы перебор начинался с первого
+элемента. строка36 -- если текущий элемент это пробел, то в аккумулятор толкаем новый пустой элемент(строка 37).
+строка 38 -- коли это не пробел, то тут такое дело: Если это первая итерация, то аккумулятор пуст, инициирован, но пуст.
+Обрати внимание на 39ю стрку. Вычисляем длину аккумулятора(при первой итерации будет 0) length -1 = -1. Т.е. при первой итерации
+39 строка будет пытаться запушить в несуществующий элемент и естественно это  вызывет ошибку. Именно поэтому нам необходимо
+ второе тернарное выражение (38 строка)(простые If не канает, т.к. обработчик ожидает выражение). 39 строка анализирует:
+ коли это не пробел, но блин это первая итерация, то в пустой аккумулятор суём перевый НЕ пробел, в нашем случе div.,
+ тем самым создаём первый элемент, чтобы при следующих итерациях длина аккумулятора была не 0. строка 40 - ХБЗ.
+ без этого причиндала функция push внутри конструкции reduce не работет. Если ты читаешь это  и знаешь ответ -
+ ДОПИШИ,  ибо на изучение этой грёбанной конструкции ушла целая, мать его, неделя.
+*/
 
-    console.log(sum);*/
+    var masss = mass.reduce(function (previousValue, currentValue, index) { //переделываем строку в двумерный массив, выдираем имена классов
+        //console.log('l=' + previousValue.length + ' index=' + index);
+        //console.log('pV=' + previousValue);
+        //console.log('cV=' + currentValue.tagName);
+        return  (currentValue.tagName == 'BR'
+                    ? previousValue.push([])
+                    : previousValue.length == 0 ? previousValue.push([currentValue.className.split(' ')[1]])
+                    : previousValue[previousValue.length-1].push(currentValue.className.split(' ')[1])
+            ) && previousValue;
+    }, [] );
+    console.log(masss);
     console.log('**************************');
 
-
-    /*var masss = mass.reduce(function (rows, key, index) {
-        return (index % 3 == 0 ? rows.push([key])
-                : rows[rows.length-1].push(key)) && rows;
-    }, []);*/
+    var massss = masss.map(function(str){
+        str.map(function(elem){
+            if(elem == 'life') return 1;
+            else return 0;
+        });
+        return str;
+    });
+    console.log(massss);
+    console.log('**************************');
 }
 
 function Scan_mass(mass, new_mass) { //сканируем и генерим следующее поле
@@ -285,7 +311,7 @@ function Print(mass) { //функция вывода результата на страницу
 //    console.log(lifegame.getAttribute('id'));
     lifegame.innerHTML = '';                            //удаляем все дочерние элементы
 
-    mass.map(function(str) {
+    mass.map(function(str, index, matrix) {
        str.map(function(elem){
            var child_div = document.createElement('div');
            child_div.className = 'elem';
@@ -295,7 +321,9 @@ function Print(mass) { //функция вывода результата на страницу
 
            document.getElementById('lifegame').appendChild(child_div);
        });
-        var br = document.createElement('br'); //создаем переход на новую строку
-        document.getElementById('lifegame').appendChild(br);
+        if(matrix.length -1 != index) { //нужно чтобы вконце матрицы не появился пробел
+            var br = document.createElement('br'); //создаем переход на новую строку
+            document.getElementById('lifegame').appendChild(br);
+        }
     });
 }
