@@ -5,10 +5,11 @@ function Init() {
     var mass = new Array(10).fill(0).map(function(){return new Array(10).fill(0)}); //создаём двумерный массив и заполняем его нулями
     mass = First_generation(mass);
     Print(mass);
-    //console.log(mass);
-    //console.log('**************************');
+    console.log('первоначальный массив');
+    console.log(mass);
+    console.log('**************************');
 
-    var new_mass = new Array(10).fill(0).map(function(){return new Array(10).fill(0)}); //создаём массив для формирования нового поля итерации
+//    var new_mass = new Array(10).fill(0).map(function(){return new Array(10).fill(0)}); //создаём массив для формирования нового поля итерации
 
 
 }/*setInterval(function(){
@@ -24,13 +25,15 @@ function Init() {
 
 function Klick() {
     var elems = document.getElementById('lifegame').getElementsByTagName('*'); //получаем ХТМЛКолекцию внутренностей рожительского дива
-    //console.log(elems);
-    //console.log('**************************');
+    console.log('сканированный с дома массив в виде HTMLCollection ');
+    console.log(elems);
+    console.log('**************************');
     var mass = Array.prototype.slice.call(elems); //конвертирует массив HTMLColletion в строку
-    //console.log(mass);
-    //console.log('**************************');
+    console.log('преобразованнй в массив, который сосканировали');
+    console.log(mass);
+    console.log('**************************');
 
- /****************************************************************************************************************************
+ /*******для примера************************************************************************************************
     var masss = mass.reduce(function (previousValue, currentValue, index) { //переделываем строку в двумерный массив для примеры массивы будет состоять из имён тэгов
         console.log('l=' + previousValue.length + ' index=' + index);
         console.log('pV=' + previousValue);
@@ -56,18 +59,16 @@ mass.reduce((previousValue, currentValue, index){..},[] бежим по массиву, [] в к
 читаешь это и знаешь ответ - ДОПИШИ,  ибо на изучение этой грёбанной конструкции ушла целая, мать его, неделя.
 ***************************************************************************************************************************************/
 
-    mass = mass.reduce(function (previousValue, currentValue, index) { //переделываем строку в двумерный массив, выдираем имена классов
-        //console.log('l=' + previousValue.length + ' index=' + index);
-        //console.log('pV=' + previousValue);
-        //console.log('cV=' + currentValue.tagName);
+    mass = mass.reduce(function (previousValue, currentValue) { //переделываем строку в двумерный массив, выдираем имена классов
         return  (currentValue.tagName == 'BR'
                     ? previousValue.push([])
                     : previousValue.length == 0 ? previousValue.push([currentValue.className.split(' ')[1]])
                             : previousValue[previousValue.length-1].push(currentValue.className.split(' ')[1])
             ) && previousValue;
     }, [] );
-    //console.log(mass);
-    //console.log('**************************');
+    console.log('преобразованный в двумерный массив особым образов');
+    console.log(mass);
+    console.log('**************************');
 
     mass = mass.map(function(str){ //преобразовываем в массив 1   0
         return str.map(function(elem){
@@ -75,16 +76,18 @@ mass.reduce((previousValue, currentValue, index){..},[] бежим по массиву, [] в к
             else return 0;
         });
     });
-    console.log('************mass************');
+    console.log('массив в окончательном виде');
     console.log(mass);
+    console.log('**************************');
 
     var new_mass = new Array(10).fill(0).map(function(){return new Array(10).fill(0)}); //создаём массив для формирования нового поля итерации
     Scan_mass(mass, new_mass); //сканируем текущее поле и генерим новое
     new_mass.map(function(str, i){mass[i] = str.slice(0);}); //обновляем данные
     new_mass.map(function(str){str.fill(0);}); //обнуляем временную память
     Print(mass);
-    console.log('**********new_mass**********');
+    console.log('новый массив');
     console.log(mass);
+    console.log('**************************');
 }
 
 function Scan_mass(mass, new_mass) { //сканируем и генерим следующее поле
@@ -96,6 +99,25 @@ function Scan_mass(mass, new_mass) { //сканируем и генерим следующее поле
 }
 
 function Scan_el(mass, new_mass, el, i, j) {
+    var k = 0;
+    //console.log('******начало итерации*******');
+    //console.log('i=' + i + ' j=' +j);
+    [i - 1, i, i + 1].map(function(y) { //перебираем строки вокруг живого элемента
+        if (y < 0) y = mass.length - 1; //если сканируемый элемент находится на верхней строке, значит соседняя сверху строка будет крайней нижней
+        else if (y == mass.length) y = 0;//если сканируемы элемент находится на нижней строке, значит соседняя снизу строка будет крайней верхней
+        [j-1, j, j+1].map(function(x){ //перебираем соседние элементы опираясь на одну перебираемых соседних строк
+            if(i != y || j != x) { //а вдруг выбранный элемент и есть сканируемый? ну так нахрен он тогда нам нужен
+                if (x < 0) x = mass[y].length - 1;//если сканируемы элемент находится на левой стенке, значит соседний слева элемент будет находится на правой стенке
+                else if (x == mass[y].length) x = 0;//если сканируемы элемент находится на правой стенке, значит соседний справа элемент будет находится на левой стенке
+                if(mass[y][x] == 1) k++;
+            }
+        });
+    });
+    //console.log('**k=' + k + '**конец итерации*******');
+    Edit_mass(mass, new_mass, k, i, j);
+}
+
+/*function Scan_el(mass, new_mass, el, i, j) {
 //    console.log('element=' + el + ' i=' + i + ' j =' + j); //переменная к счётчик живых ячеек вокруг исследуемой ячейки
     switch (true) { //определяем зону нахождения ячейки(пограничность, внутри массива или в углу) В зависимости от зоны нахождения ячейки, алгоритм анализа соседей разный
         case i > 0 && i < 9 && j > 0 && j < 9:
@@ -144,7 +166,7 @@ function Scan_el(mass, new_mass, el, i, j) {
             return new_mass;
             break;
     }
-}
+}*/
 // переменная k будет использоваться для подсчёта колличества живых ячеек вокруг иследуемой
 
 function Inner_element(mass, el, i, j) {
@@ -288,7 +310,8 @@ function Bottom_left_angle(mass, el, i, j) {
 function First_generation(mass) { //задаём первоначально живые ячейки
 //    mass[3][3] = mass[3][4] = mass[3][5] = mass[4][3] = mass[4][4] = mass[4][5] = mass[5][3] = mass[5][4] = mass[5][5] = 1;
 //    mass[3][3] = mass[4][3] = mass[5][3] = mass[4][4] = mass[5][4] = mass[5][5] = mass[4][2] = 1;
-    mass[3][3] = mass[3][5] = mass[4][4] = mass[4][5] = mass[5][4] = 1;
+//    mass[3][3] = mass[3][5] = mass[4][4] = mass[4][5] = mass[5][4] = 1;
+    mass[0][9] = mass[9][9] = mass[2][1] = mass[0][0] = mass[1][9] = mass[1][0] = mass[0][1] = mass[9][0] =1;
     return mass;
 }
 
