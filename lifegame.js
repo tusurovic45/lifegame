@@ -9,19 +9,21 @@ function Init() {
     console.log(mass);
     console.log('**************************');
 
-//    var new_mass = new Array(10).fill(0).map(function(){return new Array(10).fill(0)}); //создаЄм массив дл€ формировани€ нового пол€ итерации
+    var new_mass = new Array(10).fill(0).map(function(){return new Array(10).fill(0)}); //создаЄм массив дл€ формировани€ нового пол€ итерации
 
+    setInterval(function(){
 
-}/*setInterval(function(){
+     Scan_mass(mass, new_mass); //сканируем текущее поле и генерим новое
+     new_mass.map(function(str, i){mass[i] = str.slice(0);}); //обновл€ем данные
+     new_mass.map(function(str){str.fill(0);}); //обнул€ем временную пам€ть
+     Print(mass);
+     console.log('новый массив');
+     console.log(mass);
+     console.log('**************************');
 
- Scan_mass(mass, new_mass); //сканируем текущее поле и генерим новое
- new_mass.map(function(str, i){mass[i] = str.slice(0);}); //обновл€ем данные
- new_mass.map(function(str){str.fill(0);}); //обнул€ем временную пам€ть
- Print(mass);
- console.log(mass);
- console.log('**************************');
+     }, 1000);
 
- }, 1000);*/
+}
 
 function Klick() {
     var elems = document.getElementById('lifegame').getElementsByTagName('*'); //получаем ’“ћЋ олекцию внутренностей рожительского дива
@@ -117,195 +119,9 @@ function Scan_el(mass, new_mass, el, i, j) {
     Edit_mass(mass, new_mass, k, i, j);
 }
 
-/*function Scan_el(mass, new_mass, el, i, j) {
-//    console.log('element=' + el + ' i=' + i + ' j =' + j); //переменна€ к счЄтчик живых €чеек вокруг исследуемой €чейки
-    switch (true) { //определ€ем зону нахождени€ €чейки(пограничность, внутри массива или в углу) ¬ зависимости от зоны нахождени€ €чейки, алгоритм анализа соседей разный
-        case i > 0 && i < 9 && j > 0 && j < 9:
-            var k = Inner_element(mass, el, i, j);
-            new_mass = Edit_mass(mass, new_mass, k, i, j);
-            return new_mass;
-            break;
-        case i == 0 && j > 0 && j < 9:
-            var k = Top_side(mass, el, i, j);
-            new_mass = Edit_mass(mass, new_mass, k, i, j);
-            return new_mass;
-            break;
-        case i == 9 && j > 0 && j < 9:
-            var k = Bottom_side(mass, el, i, j);
-            new_mass = Edit_mass(mass, new_mass, k, i, j);
-            return new_mass;
-            break;
-        case i > 0 && i < 9 && j == 0:
-            var k = Left_side(mass, el, i, j);
-            new_mass = Edit_mass(mass, new_mass, k, i, j);
-            return new_mass;
-            break;
-        case i > 0 && i < 9 && j == 9:
-            var k = Right_side(mass, el, i, j);
-            new_mass = Edit_mass(mass, new_mass, k, i, j);
-            return new_mass;
-            break;
-        case i == 0 && j == 0:
-            var k = Top_left_angle(mass, el, i, j);
-            new_mass = Edit_mass(mass, new_mass, k, i, j);
-            return new_mass;
-            break;
-        case i == 0 && j == 9:
-            var k = Top_Right_angle(mass, el, i, j);
-            new_mass = Edit_mass(mass, new_mass, k, i, j);
-            return new_mass;
-            break;
-        case i == 9 && j == 9:
-            var k = Bottom_right_angle(mass, el, i, j);
-            new_mass = Edit_mass(mass, new_mass, k, i, j);
-            return new_mass;
-            break;
-        case i == 9 && j == 0:
-            var k = Bottom_left_angle(mass, el, i, j);
-            new_mass = Edit_mass(mass, new_mass, k, i, j);
-            return new_mass;
-            break;
-    }
-}*/
+
 // переменна€ k будет использоватьс€ дл€ подсчЄта колличества живых €чеек вокруг иследуемой
 
-function Inner_element(mass, el, i, j) {
-//    console.log('Inner_element');
-    var k = 0;
-    for(var y = i-1; y <= i+1; y++) {
-        for(var x = j-1; x <= j+1; x++){
-            if(y != i || x != j) { //≈сли рассматриваемый элемент данной минизоны(3 на 3) не находитс€ посередине, то анализируем дальше
-                if(mass[y][x] == 1) k++;
-            }
-        }
-    }
-//    console.log('k=' + k);
-    return k;
-}
-
-function Top_side(mass, el, i, j) {
-//    console.log('Top_side');
-    var k = 0;
-    var y = [0 , 1, 9];
-    y.forEach(function(y) {
-        for (var x = j - 1; x <= j + 1; x++) {
-            if (y != i || x != j) {
-                if (mass[y][x] == 1) k++;
-            }
-        }
-    });
-//    console.log('k=' + k);
-    return k;
-}
-
-function Bottom_side(mass, el, i, j) {
-//    console.log('Bottom_side');
-    var k = 0;
-    var y = [8, 9 , 0];
-    y.forEach(function(y) {
-        for (var x = j - 1; x <= j + 1; x++) {
-            if (y != i || x != j) {
-                if (mass[y][x] == 1) k++;
-            }
-        }
-    });
-    return k;
-//    console.log('k=' + k);
-}
-
-function Left_side(mass, el, i, j) {
-//    console.log('Left_side');
-    var k = 0;
-    var x = [0, 1 , 9];
-    for(var y = i-1; y <= i+1; y++) {
-        x.forEach(function(x) {
-            if (y != i || x != j) {
-                if (mass[y][x] == 1) k++;
-            }
-        });
-    }
-    return k;
-//    console.log('k=' + k);
-}
-
-function Right_side(mass, el, i, j) {
-//    console.log('Right_side');
-    var k = 0;
-    var x = [0, 8 , 9];
-    for(var y = i-1; y <= i+1; y++) {
-        x.forEach(function(x) {
-            if (y != i || x != j) {
-                if (mass[y][x] == 1) k++;
-            }
-        });
-    }
-    return k;
-//    console.log('k=' + k);
-}
-
-function Top_left_angle(mass, el, i, j) {
-//    console.log('Top_left_angle');
-    var k = 0;
-    var y = [0, 1, 9];
-    var x = [0, 1, 9];
-    y.forEach(function(y) {
-        x.forEach(function(x) {
-            if (y != i || x != j) {
-                if (mass[y][x] == 1) k++;
-            }
-        });
-    });
-    return k;
-//    console.log('k=' + k);
-}
-
-function Top_Right_angle(mass, el, i, j) {
-//    console.log('Top_Right_angle');
-    var k = 0;
-    var y = [0, 1, 9];
-    var x = [0, 8, 9];
-    y.forEach(function(y) {
-        x.forEach(function(x) {
-            if (y != i || x != j) {
-                if (mass[y][x] == 1) k++;
-            }
-        });
-    });
-    return k;
-//    console.log('k=' + k);
-}
-
-function Bottom_right_angle(mass, el, i, j) {
-//    console.log('Bottom_right_angle');
-    var k = 0;
-    var y = [0, 8, 9];
-    var x = [0, 8, 9];
-    y.forEach(function(y) {
-        x.forEach(function(x) {
-            if (y != i || x != j) {
-                if (mass[y][x] == 1) k++;
-            }
-        });
-    });
-    return k;
-//    console.log('k=' + k);
-}
-
-function Bottom_left_angle(mass, el, i, j) {
-//    console.log('Bottom_left_angle');
-    var k = 0;
-    var y = [0, 8, 9];
-    var x = [0, 1, 9];
-    y.forEach(function(y) {
-        x.forEach(function(x) {
-            if (y != i || x != j) {
-                if (mass[y][x] == 1) k++;
-            }
-        });
-    });
-    return k;
-//    console.log('k=' + k);
-}
 
 function First_generation(mass) { //задаЄм первоначально живые €чейки
 //    mass[3][3] = mass[3][4] = mass[3][5] = mass[4][3] = mass[4][4] = mass[4][5] = mass[5][3] = mass[5][4] = mass[5][5] = 1;
