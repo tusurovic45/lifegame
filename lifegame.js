@@ -5,33 +5,33 @@ function Init() {
     var mass = new Array(10).fill(0).map(function(){return new Array(10).fill(0)}); //создаём двумерный массив и заполняем его нулями
     mass = First_generation(mass);
     Print(mass);
-    console.log(mass);
-    console.log('**************************');
+    //console.log(mass);
+    //console.log('**************************');
 
-    /*var new_mass = new Array(10).fill(0).map(function(){return new Array(10).fill(0)}); //создаём массив для формирования нового поля итерации
+    var new_mass = new Array(10).fill(0).map(function(){return new Array(10).fill(0)}); //создаём массив для формирования нового поля итерации
 
-    setInterval(function(){
 
-        new_mass = Scan_mass(mass, new_mass); //сканируем текущее поле и генерим новое
-        new_mass.map(function(str, i){mass[i] = str.slice(0);}); //обновляем данные
-        new_mass.map(function(str){str.fill(0);}); //обнуляем временную память
-        Print(mass);
-        console.log(mass);
-        console.log('**************************');
+}/*setInterval(function(){
 
-    }, 1000);*/
-}
+ Scan_mass(mass, new_mass); //сканируем текущее поле и генерим новое
+ new_mass.map(function(str, i){mass[i] = str.slice(0);}); //обновляем данные
+ new_mass.map(function(str){str.fill(0);}); //обнуляем временную память
+ Print(mass);
+ console.log(mass);
+ console.log('**************************');
+
+ }, 1000);*/
 
 function Klick() {
-    //var elems = document.getElementById('lifegame').childNodes;
-    var elems = document.getElementById('lifegame').getElementsByTagName('*');
-    console.log(elems);
-    console.log('**************************');
+    var elems = document.getElementById('lifegame').getElementsByTagName('*'); //получаем ХТМЛКолекцию внутренностей рожительского дива
+    //console.log(elems);
+    //console.log('**************************');
     var mass = Array.prototype.slice.call(elems); //конвертирует массив HTMLColletion в строку
-    console.log(mass);
-    console.log('**************************');
+    //console.log(mass);
+    //console.log('**************************');
 
-    /*var masss = mass.reduce(function (previousValue, currentValue, index) { //переделываем строку в двумерный массив для примеры массивы будет состоять из имён тэгов
+ /****************************************************************************************************************************
+    var masss = mass.reduce(function (previousValue, currentValue, index) { //переделываем строку в двумерный массив для примеры массивы будет состоять из имён тэгов
         console.log('l=' + previousValue.length + ' index=' + index);
         console.log('pV=' + previousValue);
         console.log('cV=' + currentValue.tagName);
@@ -40,47 +40,56 @@ function Klick() {
                     : previousValue.length == 0 ? previousValue.push([currentValue.tagName])
                                                 : previousValue[previousValue.length-1].push(currentValue.tagName)
                 ) && previousValue;
-    }, [] );*/
-/*
-mass.reduce((previousValue, currentValue, index){..},[] бежим по массиву, [] нужен чтобы перебор начинался с первого
-элемента. строка36 -- если текущий элемент это пробел, то в аккумулятор толкаем новый пустой элемент(строка 37).
-строка 38 -- коли это не пробел, то тут такое дело: Если это первая итерация, то аккумулятор пуст, инициирован, но пуст.
-Обрати внимание на 39ю стрку. Вычисляем длину аккумулятора(при первой итерации будет 0) length -1 = -1. Т.е. при первой итерации
-39 строка будет пытаться запушить в несуществующий элемент и естественно это  вызывет ошибку. Именно поэтому нам необходимо
- второе тернарное выражение (38 строка)(простые If не канает, т.к. обработчик ожидает выражение). 39 строка анализирует:
- коли это не пробел, но блин это первая итерация, то в пустой аккумулятор суём перевый НЕ пробел, в нашем случе div.,
- тем самым создаём первый элемент, чтобы при следующих итерациях длина аккумулятора была не 0. строка 40 - ХБЗ.
- без этого причиндала функция push внутри конструкции reduce не работет. Если ты читаешь это  и знаешь ответ -
- ДОПИШИ,  ибо на изучение этой грёбанной конструкции ушла целая, мать его, неделя.
-*/
+    }, [] );*!/
+/!*
+mass.reduce((previousValue, currentValue, index){..},[] бежим по массиву, [] в конце нужен чтобы перебор начинался с первого
+элемента. //currentValue.tagName == 'BR'// -- если текущий элемент это пробел, то в аккумулятор толкаем новый пустой
+элемент(//previousValue.push([])//). //previousValue.length == 0// -- коли это не пробел, то тут такое дело: Если
+это первая итерация, то аккумулятор пуст, инициирован, но пуст. Обрати внимание на //previousValue[previousValue.length-1].push(currentValue.tagName)//
+строку - здесь творится хрень - Вычисляем длину аккумулятора(при первой итерации будет 0) length -1 = -1. Т.е. при первой
+итерации эта строка будет пытаться запушить в несуществующий элемент и естественно это  вызывет ошибку. Именно поэтому
+нам необходимо второе тернарное выражение (//previousValue.length == 0//)(простые If не канает, т.к. обработчик ожидает
+выражение).  //previousValue.length == 0// строка работает следующим образом: коли это не пробел, но, блин, это первая
+итерация, то  в пустой аккумулятор суём перевый НЕ пробел, в нашем случе div(//previousValue.push([currentValue.tagName]//).,
+тем самым создаём первый элемент, чтобы при следующих  итерациях длина аккумулятора была не 0.
+строка //)&& previousValue// - ХБЗ. без этого причиндала функция push внутри конструкции reduce не работет. Если ты
+читаешь это и знаешь ответ - ДОПИШИ,  ибо на изучение этой грёбанной конструкции ушла целая, мать его, неделя.
+***************************************************************************************************************************************/
 
-    var masss = mass.reduce(function (previousValue, currentValue, index) { //переделываем строку в двумерный массив, выдираем имена классов
+    mass = mass.reduce(function (previousValue, currentValue, index) { //переделываем строку в двумерный массив, выдираем имена классов
         //console.log('l=' + previousValue.length + ' index=' + index);
         //console.log('pV=' + previousValue);
         //console.log('cV=' + currentValue.tagName);
         return  (currentValue.tagName == 'BR'
                     ? previousValue.push([])
                     : previousValue.length == 0 ? previousValue.push([currentValue.className.split(' ')[1]])
-                    : previousValue[previousValue.length-1].push(currentValue.className.split(' ')[1])
+                            : previousValue[previousValue.length-1].push(currentValue.className.split(' ')[1])
             ) && previousValue;
     }, [] );
-    console.log(masss);
-    console.log('**************************');
+    //console.log(mass);
+    //console.log('**************************');
 
-    var massss = masss.map(function(str){
-        str.map(function(elem){
+    mass = mass.map(function(str){ //преобразовываем в массив 1   0
+        return str.map(function(elem){
             if(elem == 'life') return 1;
             else return 0;
         });
-        return str;
     });
-    console.log(massss);
-    console.log('**************************');
+    console.log('************mass************');
+    console.log(mass);
+
+    var new_mass = new Array(10).fill(0).map(function(){return new Array(10).fill(0)}); //создаём массив для формирования нового поля итерации
+    Scan_mass(mass, new_mass); //сканируем текущее поле и генерим новое
+    new_mass.map(function(str, i){mass[i] = str.slice(0);}); //обновляем данные
+    new_mass.map(function(str){str.fill(0);}); //обнуляем временную память
+    Print(mass);
+    console.log('**********new_mass**********');
+    console.log(mass);
 }
 
 function Scan_mass(mass, new_mass) { //сканируем и генерим следующее поле
     mass.map(function (str, i){
-        str.map(function(el, j){Scan_el(mass, new_mass,el, i, j)
+        str.map(function(el, j){Scan_el(mass, new_mass, el, i, j)
         });
     });
     return new_mass;
@@ -135,7 +144,6 @@ function Scan_el(mass, new_mass, el, i, j) {
             return new_mass;
             break;
     }
-    console.log('******');
 }
 // переменная k будет использоваться для подсчёта колличества живых ячеек вокруг иследуемой
 
