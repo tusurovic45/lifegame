@@ -8,7 +8,7 @@ function Init() {
     console.log(mass);
     console.log('**************************');
 
-    /*var new_mass = new Array(10).fill(0).map(function(){return new Array(10).fill(0)}); //создаём массив для формирования нового поля итерации
+    var new_mass = new Array(10).fill(0).map(function(){return new Array(10).fill(0)}); //создаём массив для формирования нового поля итерации
 
     setInterval(function(){
 
@@ -19,29 +19,8 @@ function Init() {
         console.log(mass);
         console.log('**************************');
 
-    }, 1000);*/
+    }, 1000);
 }
-
-function Klick() {
-    //var elems = document.getElementById('lifegame').childNodes;
-    var elems = document.getElementById('lifegame').getElementsByTagName('*');
-    var mass= Array.prototype.slice.call( elems );
-    console.log(mass);
-
-    var masss = mass.reduce(function (rows, key, index) {
-        return (index % 3 == 0 ? rows.push([key])
-                : rows[rows.length-1].push(key)) && rows;
-    }, []);
-    console.log(masss);
-    /*var new_mass = new Array(10).fill(0).map(function(){return new Array(10).fill(0)});
-    new_mass = Scan_mass(mass, new_mass); //сканируем текущее поле и генерим новое
-    new_mass.map(function(str, i){mass[i] = str.slice(0);}); //обновляем данные
-    new_mass.map(function(str){str.fill(0);}); //обнуляем временную память
-    Print(mass);
-    console.log(mass);
-    console.log('**************************');*/
-}
-
 function Scan_mass(mass, new_mass) { //сканируем и генерим следующее поле
     mass.map(function (str, i){
         str.map(function(el, j){Scan_el(mass, new_mass,el, i, j)
