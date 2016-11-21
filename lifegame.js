@@ -11,7 +11,7 @@ function Init() {
 
     var new_mass = new Array(10).fill(0).map(function(){return new Array(10).fill(0)}); //создаём массив для формирования нового поля итерации
 
-    setInterval(function(){
+    /*setInterval(function(){
 
      Scan_mass(mass, new_mass); //сканируем текущее поле и генерим новое
      new_mass.map(function(str, i){mass[i] = str.slice(0);}); //обновляем данные
@@ -21,7 +21,7 @@ function Init() {
      console.log(mass);
      console.log('**************************');
 
-     }, 1000);
+     }, 1000);*/
 
 }
 
@@ -104,7 +104,7 @@ function Scan_el(mass, new_mass, el, i, j) {
     var k = 0;
     //console.log('******начало итерации*******');
     //console.log('i=' + i + ' j=' +j);
-    [i - 1, i, i + 1].map(function(y) { //перебираем строки вокруг живого элемента
+    [i - 1, i, i + 1].map(function(y) { //перебираем строки вокруг исследуемого элемента
         if (y < 0) y = mass.length - 1; //если сканируемый элемент находится на верхней строке, значит соседняя сверху строка будет крайней нижней
         else if (y == mass.length) y = 0;//если сканируемы элемент находится на нижней строке, значит соседняя снизу строка будет крайней верхней
         [j-1, j, j+1].map(function(x){ //перебираем соседние элементы опираясь на одну перебираемых соседних строк
@@ -132,7 +132,7 @@ function First_generation(mass) { //задаём первоначально живые ячейки
 }
 
 function Edit_mass(mass, new_mass, k, i, j) {
-    switch (true) { //определяем зону нахождения ячейки(пограничность, внутри массива или в углу)
+    switch (true) {
         case k > 3 || k < 2:
             new_mass[i][j] = 0;
             return new_mass;
