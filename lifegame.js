@@ -1,31 +1,29 @@
+window.onload = function() { StartMode();} //для работы в консоли строку коментим и убираем коментрарий с Init();
+
 function StartMode() {
 
-    var lifegame = document.getElementById('lifegame');
-    lifegame.innerHTML = '';
-    var selectList = document.createElement('select');
-    selectList.id = 'lifegameMode';
-    selectList.setAttribute('onchange', "Init(this.value)");
-    var option = document.createElement('option');
-    option.setAttribute('selected', 'selected');
-    option.innerHTML = 'Выберите режим';
-    selectList.appendChild(option);
-    var option = document.createElement('option');
-    option.value = 0;
-    option.text = 'в цикле';
-    selectList.appendChild(option);
-    var option = document.createElement('option');
+    var lifegame = document.getElementById('lifegame'); //ищем блок lifegame
+    lifegame.innerHTML = ''; //чиститм содержимое найденного блока
+    var selectList = document.createElement('select'); //создаём блок select для выбоа режима работы игры
+    selectList.setAttribute('onchange', "Init(this.value)"); //навешиваем событие на объект select - по изменению запусткать функцию с параметром выбранной опции селекта
+    var option = document.createElement('option');//создаём опцию
+    option.setAttribute('selected', 'selected'); //навешиваем атрибут, что эта опция выбрана
+    option.innerHTML = 'Выберите режим'; //добаляем тестт опции
+    selectList.appendChild(option); //засовываем опцию в ранее созданный селект
+    var option = document.createElement('option'); //создаём новую опцию
+    option.value = 0; //указываем ей несущий папраметр
+    option.text = 'в цикле'; //добавляем тест к этой поции
+    selectList.appendChild(option); //засовываем эту опцию в ранее созданный селект
+    var option = document.createElement('option');//создаём новую опцию
     option.value = 1;
-    option.text = 'по клику';
-    selectList.appendChild(option);
-    lifegame.appendChild(selectList);
+    option.text = 'по клику'; //добавляем тест к этой поции
+    selectList.appendChild(option); //указываем ей несущий папраметр
+    lifegame.appendChild(selectList);//созданный селект с засунутыми в него опция засовываем в блок lifegame
 }
 
-function Init(ChooseMode) {
+function Init(ChooseMode) {  //функция отвечает за первоначальную инициализацию игры и выбра других функций в зависимости от выбранного режима
 
     console.log('JS IS WORKING!!!');
-
-    var lifegame = document.getElementById('lifegame');
-    lifegame.innerHTML = '';
 
     var mass = new Array(10).fill(0).map(function(){return new Array(10).fill(0)}); //создаём двумерный массив и заполняем его нулями
     mass = First_generation(mass);
@@ -184,8 +182,6 @@ function Edit_mass(mass, new_mass, k, i, j) {
     }
     return new_mass;
 }
-
-window.onload = function() { StartMode();} //для работы в консоли строку коментим и убираем коментрарий с Init();
 
 function Print(mass) { //функция вывода результата на страницу
 
