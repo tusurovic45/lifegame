@@ -5,7 +5,7 @@ function StartMode() {
     var lifegame = document.getElementById('lifegame'); //ищем блок lifegame
     lifegame.innerHTML = ''; //чиститм содержимое найденного блока
     var selectList = document.createElement('select'); //создаём блок select для выбоа режима работы игры
-    selectList.setAttribute('onchange', "Init(this.value)"); //навешиваем событие на объект select - по изменению запусткать функцию с параметром выбранной опции селекта
+    selectList.setAttribute('onchange', "Size(this.value)"); //навешиваем событие на объект select - по изменению запусткать функцию с параметром выбранной опции селекта
     var option = document.createElement('option');//создаём опцию
     option.setAttribute('selected', 'selected'); //навешиваем атрибут, что эта опция выбрана
     option.innerHTML = 'Выберите режим'; //добаляем тестт опции
@@ -25,8 +25,11 @@ function Init(ChooseMode) {  //функция отвечает за первоначальную инициализацию 
 
     console.log('JS IS WORKING!!!');
 
-    var mass = new Array(10).fill(0).map(function(){return new Array(10).fill(0)}); //создаём двумерный массив и заполняем его нулями
-    mass = First_generation(mass);
+    var mass = CreateArea(); //задаём размерность массива и формируем его, заполняя всё 0ми
+//    console.log(mass);
+//    var mass = new Array(10).fill(0).map(function(){return new Array(10).fill(0)}); //создаём двумерный массив и заполняем его нулями
+
+    /*mass = First_generation(mass);
     Print(mass);
     console.log('первоначальный массив');
     console.log(mass);
@@ -40,7 +43,35 @@ function Init(ChooseMode) {  //функция отвечает за первоначальную инициализацию 
         KlickButton.innerHTML = 'Следующая итерация';
         KlickButton.setAttribute('onclick', 'Klick()');
         document.body.appendChild(KlickButton);
-    }
+    }*/
+}
+
+function Size(startmode) {
+
+    var lifegame = document.getElementById('lifegame');  //ищем элемент в котором ячейки с полем
+    lifegame.innerHTML = '';
+
+    var size = document.createElement('input');
+    size.setAttribute('id', 'sizearea')
+    size.setAttribute('type', 'number');
+    size.setAttribute('placeholder', 'введите число от 5 до 100 и нажмите ENTER');
+    size.setAttribute('onchange', 'ReadSize(this.value)');
+    lifegame.appendChild(size);
+
+    var sm = document.createElement('div');
+    sm.innerHTML = startmode;
+    sm.setAttribute('display', 'none');
+    sm.setAttribute('id', 'startmode');
+    lifegame.appendChild(sm);
+
+}
+
+function ReadSize(size){
+
+    var startmode = parseInt(document.getElementById('startmode').innerHTML);
+    if(parseInt(size) < 5 || parseInt(size) > 100) Size(startmode);
+
+    console.log(size, startmode);
 }
 
 function InitInterval(mass, new_mass) {
