@@ -21,32 +21,7 @@ function StartMode() {
     lifegame.appendChild(selectList);//созданный селект с засунутыми в него опци€ засовываем в блок lifegame
 }
 
-function Init(ChooseMode) {  //функци€ отвечает за первоначальную инициализацию игры и выбра других функций в зависимости от выбранного режима
-
-    console.log('JS IS WORKING!!!');
-
-    var mass = CreateArea(); //задаЄм размерность массива и формируем его, заполн€€ всЄ 0ми
-//    console.log(mass);
-//    var mass = new Array(10).fill(0).map(function(){return new Array(10).fill(0)}); //создаЄм двумерный массив и заполн€ем его нул€ми
-
-    /*mass = First_generation(mass);
-    Print(mass);
-    console.log('первоначальный массив');
-    console.log(mass);
-    console.log('**************************');
-
-    var new_mass = new Array(10).fill(0).map(function(){return new Array(10).fill(0)}); //создаЄм массив дл€ формировани€ нового пол€ итерации
-
-    if(ChooseMode == '0') InitInterval(mass, new_mass);
-    else if(ChooseMode == '1') {
-        var KlickButton = document.createElement('button');
-        KlickButton.innerHTML = '—ледующа€ итераци€';
-        KlickButton.setAttribute('onclick', 'Klick()');
-        document.body.appendChild(KlickButton);
-    }*/
-}
-
-function Size(startmode) {
+function Size(chooseMode) {
 
     var lifegame = document.getElementById('lifegame');  //ищем элемент в котором €чейки с полем
     lifegame.innerHTML = '';
@@ -55,23 +30,41 @@ function Size(startmode) {
     size.setAttribute('id', 'sizearea')
     size.setAttribute('type', 'number');
     size.setAttribute('placeholder', 'введите число от 5 до 100 и нажмите ENTER');
-    size.setAttribute('onchange', 'ReadSize(this.value)');
+    size.setAttribute('onchange', 'Init(parseInt(this.value), parseInt(document.getElementById(\'startmode\').innerHTML))');
     lifegame.appendChild(size);
 
     var sm = document.createElement('div');
-    sm.innerHTML = startmode;
-    sm.setAttribute('display', 'none');
+    sm.innerHTML = chooseMode;
+    sm.setAttribute('style', 'display: none;');
     sm.setAttribute('id', 'startmode');
     lifegame.appendChild(sm);
 
 }
 
-function ReadSize(size){
+function Init(size, ChooseMode) {  //функци€ отвечает за первоначальную инициализацию игры и выбра других функций в зависимости от выбранного режима
 
-    var startmode = parseInt(document.getElementById('startmode').innerHTML);
-    if(parseInt(size) < 5 || parseInt(size) > 100) Size(startmode);
+    console.log('JS IS WORKING!!!');
 
-    console.log(size, startmode);
+    console.log('size=' + size + ' typeof=' + typeof size);
+    console.log('startmode=' + ChooseMode + ' typeof=' + typeof ChooseMode);
+
+    var mass = new Array(size).fill(0).map(function(){return new Array(size).fill(0)}); //создаЄм двумерный массив и заполн€ем его нул€ми
+
+    mass = First_generation(mass);
+    Print(mass);
+    console.log('первоначальный массив');
+    console.log(mass);
+    console.log('**************************');
+
+    var new_mass = new Array(size).fill(0).map(function(){return new Array(size).fill(0)}); //создаЄм массив дл€ формировани€ нового пол€ итерации
+
+    if(ChooseMode == '0') InitInterval(mass, new_mass);
+    else if(ChooseMode == '1') {
+        var KlickButton = document.createElement('button');
+        KlickButton.innerHTML = '—ледующа€ итераци€';
+        KlickButton.setAttribute('onclick', 'Klick()');
+        document.body.appendChild(KlickButton);
+    }
 }
 
 function InitInterval(mass, new_mass) {
