@@ -29,8 +29,8 @@ function Size(chooseMode) {
     var size = document.createElement('input');
     size.setAttribute('id', 'sizearea')
     size.setAttribute('type', 'number');
-    size.setAttribute('placeholder', 'введите число от 5 до 100 и нажмите ENTER');
-    size.setAttribute('onchange', 'Init(parseInt(this.value), parseInt(document.getElementById(\'startmode\').innerHTML))');
+    size.setAttribute('placeholder', 'введите число от 5 до 20 и нажмите ENTER');
+    size.setAttribute('onchange', 'FirstIterationMode(parseInt(this.value), parseInt(document.getElementById(\'startmode\').innerHTML))');
     lifegame.appendChild(size);
 
     var sm = document.createElement('div');
@@ -41,16 +41,58 @@ function Size(chooseMode) {
 
 }
 
+function FirstIterationMode(size, ChooseMode) {
+
+    if(size < 5 || size > 20) return Size(ChooseMode); //размер поля должен быть не менее 5ти но не более 20ти
+
+    var lifegame = ClearLilegame();
+
+    var selectList = document.createElement('select');
+    selectList.setAttribute('onchange', 'FirstIteration(parseInt(this.value), parseInt(document.getElementById(\'startmode\').innerHTML), parseInt(document.getElementById(\'size\').innerHTML) )');
+    var option = document.createElement('option');
+    option.setAttribute('selected', 'selected');
+    option.innerHTML = 'Первая итерация';
+    selectList.appendChild(option);
+    var option = document.createElement('option');
+    option.value = 0;
+    option.text = 'По умолчанию';
+    selectList.appendChild(option);
+    var option = document.createElement('option');
+    option.value = 1;
+    option.text = 'Задать свой';
+    selectList.appendChild(option);
+    lifegame.appendChild(selectList);
+
+    var sz = document.createElement('div');
+    sz.innerHTML = size;
+    sz.setAttribute('style', 'display: none;');
+    sz.setAttribute('id', 'size');
+    lifegame.appendChild(sz);
+
+    var sm = document.createElement('div');
+    sm.innerHTML = chooseMode;
+    sm.setAttribute('style', 'display: none;');
+    sm.setAttribute('id', 'startmode');
+    lifegame.appendChild(sm);
+}
+
+function FirstIteration(FI, SM, SZ) {
+
+    console.log(FI);
+    console.log(SM);
+    console.log(SZ);
+}
+
 function Init(size, ChooseMode) {  //функция отвечает за первоначальную инициализацию игры и выбра других функций в зависимости от выбранного режима
 
     console.log('JS IS WORKING!!!');
 
-    console.log('size=' + size + ' typeof=' + typeof size);
-    console.log('startmode=' + ChooseMode + ' typeof=' + typeof ChooseMode);
+    //console.log('size=' + size + ' typeof=' + typeof size);
+    //console.log('startmode=' + ChooseMode + ' typeof=' + typeof ChooseMode);
 
     var mass = new Array(size).fill(0).map(function(){return new Array(size).fill(0)}); //создаём двумерный массив и заполняем его нулями
 
-    mass = First_generation(mass);
+    mass = First_generation(mass, size);
     Print(mass);
     console.log('первоначальный массив');
     console.log(mass);
@@ -140,7 +182,7 @@ mass.reduce((previousValue, currentValue, index){..},[] бежим по массиву, [] в к
     //console.log(mass);
     //console.log('**************************');
 
-    var new_mass = new Array(10).fill(0).map(function(){return new Array(10).fill(0)}); //создаём массив для формирования нового поля итерации
+    var new_mass = new Array(mass.length).fill(0).map(function(){return new Array(mass.length).fill(0)}); //создаём массив для формирования нового поля итерации
     Scan_mass(mass, new_mass); //сканируем текущее поле и генерим новое
     new_mass.map(function(str, i){mass[i] = str.slice(0);}); //обновляем данные
     new_mass.map(function(str){str.fill(0);}); //обнуляем временную память
@@ -181,11 +223,11 @@ function Scan_el(mass, new_mass, el, i, j) {
 // переменная k будет использоваться для подсчёта колличества живых ячеек вокруг иследуемой
 
 
-function First_generation(mass) { //задаём первоначально живые ячейки
-//    mass[3][3] = mass[3][4] = mass[3][5] = mass[4][3] = mass[4][4] = mass[4][5] = mass[5][3] = mass[5][4] = mass[5][5] = 1;
-//    mass[3][3] = mass[4][3] = mass[5][3] = mass[4][4] = mass[5][4] = mass[5][5] = mass[4][2] = 1;
-//    mass[3][3] = mass[3][5] = mass[4][4] = mass[4][5] = mass[5][4] = 1;
-    mass[0][9] = mass[9][9] = mass[2][1] = mass[0][0] = mass[1][9] = mass[1][0] = mass[0][1] = mass[9][0] =1;
+function First_generation(mass, size) { //задаём первоначально живые ячейки
+    mass[0][0] = mass[0][1] = mass[0][2] = mass[1][0] = mass[1][1] = mass[1][2] = mass[2][0] = mass[2][1] = mass[2][2] = 1;
+//    mass[0][1] = mass[1][0] = mass[1][1] = mass[1][2] = mass[2][1] = mass[2][2] = mass[2][3] = 1;
+//    mass[0][0] = mass[0][2] = mass[1][1] = mass[1][2] = mass[2][1] = 1;
+//    mass[0][size - 1] = mass[size - 1][size - 1] = mass[2][1] = mass[0][0] = mass[1][size - 1] = mass[1][0] = mass[0][1] = mass[size - 1][0] = 1;
     return mass;
 }
 
@@ -228,4 +270,9 @@ function Print(mass) { //функция вывода результата на страницу
             document.getElementById('lifegame').appendChild(br);
         }
     });
+}
+
+function ClearLilegame() {
+
+    return document.getElementById('lifegame').innerHTML = '';
 }
