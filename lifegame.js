@@ -41,22 +41,25 @@ function Size(chooseMode) {
 
 }
 
-function FirstIterationMode(size, ChooseMode) {
+function FirstIterationMode(size, choosemode) {
 
     if(size < 5 || size > 20) return Size(ChooseMode); //размер поля должен быть не менее 5ти но не более 20ти
 
-    var lifegame = ClearLilegame();
+    var lifegame = ClearLifegame();
 
     var selectList = document.createElement('select');
     selectList.setAttribute('onchange', 'FirstIteration(parseInt(this.value), parseInt(document.getElementById(\'startmode\').innerHTML), parseInt(document.getElementById(\'size\').innerHTML) )');
+
     var option = document.createElement('option');
     option.setAttribute('selected', 'selected');
-    option.innerHTML = 'Первая итерация';
+    option.innerHTML = 'Выбирете вариант первой итерации';
     selectList.appendChild(option);
+
     var option = document.createElement('option');
     option.value = 0;
     option.text = 'По умолчанию';
     selectList.appendChild(option);
+
     var option = document.createElement('option');
     option.value = 1;
     option.text = 'Задать свой';
@@ -70,17 +73,18 @@ function FirstIterationMode(size, ChooseMode) {
     lifegame.appendChild(sz);
 
     var sm = document.createElement('div');
-    sm.innerHTML = chooseMode;
+    sm.innerHTML = choosemode;
     sm.setAttribute('style', 'display: none;');
     sm.setAttribute('id', 'startmode');
+
     lifegame.appendChild(sm);
 }
 
-function FirstIteration(FI, SM, SZ) {
+function FirstIteration(firstiteration, choosemode, size) {
 
-    console.log(FI);
-    console.log(SM);
-    console.log(SZ);
+    if(firstiteration == 0) return Init(size, choosemode);
+
+    console.log('А дальше не написано');
 }
 
 function Init(size, ChooseMode) {  //функция отвечает за первоначальную инициализацию игры и выбра других функций в зависимости от выбранного режима
@@ -272,7 +276,10 @@ function Print(mass) { //функция вывода результата на страницу
     });
 }
 
-function ClearLilegame() {
+function ClearLifegame() {
 
-    return document.getElementById('lifegame').innerHTML = '';
+    var lifegame = document.getElementById('lifegame');
+    lifegame.innerHTML = '';
+
+    return lifegame;
 }
