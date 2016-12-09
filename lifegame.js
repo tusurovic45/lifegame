@@ -41,7 +41,7 @@ function Size(chooseMode) {
 
 }
 
-function FirstIterationMode(size, choosemode) {
+function FirstIterationMode(size, ChooseMode) {
 
     if(size < 5 || size > 20) return Size(ChooseMode); //размер поля должен быть не менее 5ти но не более 20ти
 
@@ -73,34 +73,72 @@ function FirstIterationMode(size, choosemode) {
     lifegame.appendChild(sz);
 
     var sm = document.createElement('div');
-    sm.innerHTML = choosemode;
+    sm.innerHTML = ChooseMode;
     sm.setAttribute('style', 'display: none;');
     sm.setAttribute('id', 'startmode');
-
     lifegame.appendChild(sm);
 }
 
 function FirstIteration(firstiteration, choosemode, size) {
 
-    if(firstiteration == 0) return Init(size, choosemode);
-
-    console.log('А дальше не написано');
-}
-
-function Init(size, ChooseMode) {  //функция отвечает за первоначальную инициализацию игры и выбра других функций в зависимости от выбранного режима
-
-    console.log('JS IS WORKING!!!');
-
-    //console.log('size=' + size + ' typeof=' + typeof size);
-    //console.log('startmode=' + ChooseMode + ' typeof=' + typeof ChooseMode);
-
     var mass = new Array(size).fill(0).map(function(){return new Array(size).fill(0)}); //создаём двумерный массив и заполняем его нулями
 
-    mass = First_generation(mass, size);
-    Print(mass);
-    console.log('первоначальный массив');
-    console.log(mass);
-    console.log('**************************');
+    if(firstiteration == 0) {
+
+        mass = First_generation(mass, size);
+        Print(mass);
+        console.log('первоначальный массив');
+        console.log(mass);
+        console.log('**************************');
+
+        return Init(mass, size, choosemode);
+    }
+
+    else if(firstiteration == 1) ManualFirstIteration(mass, size, choosemode)
+}
+
+function ManualFirstIteration(mass, size, ChooseMode) {
+
+    var lifegame = ClearLifegame();
+
+    mass.map(function (str, index_str) {
+        str.map(function(elem, index){
+            var LifegameInput = document.createElement('input');
+            LifegameInput.setAttribute('type', 'checkbox');
+            LifegameInput.setAttribute('id', index_str + '_' + index);
+            LifegameInput.setAttribute('style', 'display: none');
+            lifegame.appendChild(LifegameInput);
+
+            var LifegameLabel = document.createElement('label');
+            LifegameLabel.setAttribute('for', index_str + '_' + index);
+
+            var element = document.createElement('div');
+            element.setAttribute('class', 'elem');
+
+            LifegameLabel.appendChild(element);
+            lifegame.appendChild(LifegameLabel);
+        })
+        lifegame.innerHTML += '<br>';
+    });
+
+    var sz = document.createElement('div');
+    sz.innerHTML = size;
+    sz.setAttribute('style', 'display: none;');
+    sz.setAttribute('id', 'size');
+    insertAfter(sz, lifegame);
+
+    var sm = document.createElement('div');
+    sm.innerHTML = ChooseMode;
+    sm.setAttribute('style', 'display: none;');
+    sm.setAttribute('id', 'startmode');
+    insertAfter(sm, lifegame);
+
+    var start = document.createElement('input');
+    start.setAttribute('type', 'button');
+    start.setAttribute('onclick', 'dedede')
+}
+
+function Init(mass, size, ChooseMode) {  //функция отвечает за первоначальную инициализацию игры и выбра других функций в зависимости от выбранного режима
 
     var new_mass = new Array(size).fill(0).map(function(){return new Array(size).fill(0)}); //создаём массив для формирования нового поля итерации
 
