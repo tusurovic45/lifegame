@@ -125,17 +125,44 @@ function ManualFirstIteration(mass, size, ChooseMode) {
     sz.innerHTML = size;
     sz.setAttribute('style', 'display: none;');
     sz.setAttribute('id', 'size');
-    insertAfter(sz, lifegame);
+    document.body.appendChild(sz);
 
     var sm = document.createElement('div');
     sm.innerHTML = ChooseMode;
     sm.setAttribute('style', 'display: none;');
     sm.setAttribute('id', 'startmode');
-    insertAfter(sm, lifegame);
+    document.body.appendChild(sm);
 
-    var start = document.createElement('input');
-    start.setAttribute('type', 'button');
-    start.setAttribute('onclick', 'dedede')
+    var start = document.createElement('button');
+    start.setAttribute('onclick', 'ScanFirstIteration(parseInt(document.getElementById(\'size\').innerHTML), parseInt(document.getElementById(\'startmode\').innerHTML) )')
+    start.innerHTML = 'Start!';
+    document.body.appendChild(start);
+}
+
+function ScanFirstIteration(size, ChooseMode) {
+
+    var elems = document.getElementById('lifegame').getElementsByTagName('input'); //получаем ХТМЛКолекцию внутренностей рожительского дива
+    console.log('сканированный с дома массив в виде HTMLCollection ');
+    console.log(elems);
+    console.log('**************************');
+
+    var mass = Array.prototype.slice.call(elems); //конвертирует массив HTMLColletion в строку
+    console.log('преобразованнй в массив, который сосканировали');
+    console.log(mass);
+    console.log('**************************');
+
+    mass.map(function(elem, index){
+
+        mass[index] = elem.checked;
+    });
+
+    if(mass.length % size != 0) {
+        console.log('что за хуйня?!');
+        return;
+    }
+    mass = mass.reduce(function(previousValue, currentlyValue, index){
+        return (index % (size -1) == 0 ? console.log('строка ' + index) : console.log('не строка ' + index));
+    }, []);
 }
 
 function Init(mass, size, ChooseMode) {  //функция отвечает за первоначальную инициализацию игры и выбра других функций в зависимости от выбранного режима
