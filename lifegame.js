@@ -147,25 +147,52 @@ function ScanFirstIteration(size, ChooseMode) {
     console.log('**************************');
 
     var mass = Array.prototype.slice.call(elems); //конвертирует массив HTMLColletion в строку
-    console.log('преобразованнй в массив, который сосканировали');
+    console.log('преобразованный в массив, который сосканировали');
     console.log(mass);
     console.log('**************************');
 
     mass.map(function(elem, index){
 
-        mass[index] = elem.checked;
+        elem.checked ? mass[index] = 1 : mass[index] = 0;
     });
 
     if(mass.length % size != 0) {
         console.log('что за хуйня?!');
         return;
     }
+
     mass = mass.reduce(function(previousValue, currentlyValue, index){
-        return (index % (size -1) == 0 ? console.log('строка ' + index) : console.log('не строка ' + index));
+
+        previousValue.push(currentlyValue);
+        console.log(previousValue.length);
     }, []);
+
+
+
+    /*mass = mass.reduce(function(previousValue, currentlyValue, index){
+        return (index % size == 0
+                ? previousValue.push(currentlyValue)
+                : previousValue.length == 1
+                ?
+                : previousValue[previousValue.length-1].push(currentlyValue)
+        );
+    }, []);*/
+
+
+
+   /* mass = mass.reduce(function (previousValue, currentValue) { //переделываем строку в двумерный массив, выдираем имена классов
+        return  (currentValue.tagName == 'BR'
+                    ? previousValue.push([])
+                    : previousValue.length == 0
+                        ? previousValue.push([currentValue.className.split(' ')[1]])
+                        : previousValue[previousValue.length-1].push(currentValue.className.split(' ')[1])
+                 ) && previousValue;
+    }, [] );*/
+
+
 }
 
-function Init(mass, size, ChooseMode) {  //функция отвечает за первоначальную инициализацию игры и выбра других функций в зависимости от выбранного режима
+function Init(mass, size, ChooseMode) {  //функция отвечает за первоначальную инициализацию игры и выбора других функций в зависимости от выбранного режима
 
     var new_mass = new Array(size).fill(0).map(function(){return new Array(size).fill(0)}); //создаём массив для формирования нового поля итерации
 
