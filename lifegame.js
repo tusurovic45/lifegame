@@ -153,51 +153,35 @@ function ScanFirstIteration(size, ChooseMode) {
 
     mass.map(function(elem, index){
 
-        elem.checked ? mass[index] = 1 : mass[index] = 0;
+        elem.checked == true ? mass[index] = 1 : mass[index] = 0;
     });
 
     if(mass.length % size != 0) {
         console.log('что за хуйня?!');
         return;
     }
+    console.log(mass);
+    mass = mass.reduce(function(previousValue, currentlyValue, index) {
 
-    mass = mass.reduce(function(previousValue, currentlyValue, index){
+    //    console.log(previousValue);
 
-        previousValue.push(currentlyValue);
-        console.log(previousValue.length);
-    }, []);
-
-
-
-    /*mass = mass.reduce(function(previousValue, currentlyValue, index){
         return (index % size == 0
-                ? previousValue.push(currentlyValue)
-                : previousValue.length == 1
-                ?
-                : previousValue[previousValue.length-1].push(currentlyValue)
-        );
-    }, []);*/
+                    ? previousValue.push([currentlyValue])
+                    : previousValue[previousValue.length -1].push(currentlyValue)
+            ) && previousValue;
+    }, [] );
 
-
-
-   /* mass = mass.reduce(function (previousValue, currentValue) { //переделываем строку в двумерный массив, выдираем имена классов
-        return  (currentValue.tagName == 'BR'
-                    ? previousValue.push([])
-                    : previousValue.length == 0
-                        ? previousValue.push([currentValue.className.split(' ')[1]])
-                        : previousValue[previousValue.length-1].push(currentValue.className.split(' ')[1])
-                 ) && previousValue;
-    }, [] );*/
-
-
+    Init(mass, size, ChooseMode);
 }
 
-function Init(mass, size, ChooseMode) {  //функция отвечает за первоначальную инициализацию игры и выбора других функций в зависимости от выбранного режима
+function Init(mass, size, ChooseMode) {  //функция для тсрта
 
     var new_mass = new Array(size).fill(0).map(function(){return new Array(size).fill(0)}); //создаём массив для формирования нового поля итерации
 
-    if(ChooseMode == '0') InitInterval(mass, new_mass);
+    if(ChooseMode == '0') InitInterval(mass, new_mass); //старт по интервалу
+
     else if(ChooseMode == '1') {
+
         var KlickButton = document.createElement('button');
         KlickButton.innerHTML = 'Следующая итерация';
         KlickButton.setAttribute('onclick', 'Klick()');
