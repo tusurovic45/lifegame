@@ -135,6 +135,7 @@ function ManualFirstIteration(mass, size, ChooseMode) {
 
     var start = document.createElement('button');
     start.setAttribute('onclick', 'ScanFirstIteration(parseInt(document.getElementById(\'size\').innerHTML), parseInt(document.getElementById(\'startmode\').innerHTML) )')
+    start.setAttribute('id', 'start_lifegame');
     start.innerHTML = 'Start!';
     document.body.appendChild(start);
 }
@@ -170,6 +171,8 @@ function ScanFirstIteration(size, ChooseMode) {
                     : previousValue[previousValue.length -1].push(currentlyValue)
             ) && previousValue;
     }, [] );
+
+    var bot = document.getElementById('start_lifegame').removeChild();
 
     Init(mass, size, ChooseMode);
 }
