@@ -102,7 +102,9 @@ function ManualFirstIteration(mass, size, ChooseMode) {
     var lifegame = ClearLifegame();
 
     mass.map(function (str, index_str) {
+
         str.map(function(elem, index){
+
             var LifegameInput = document.createElement('input');
             LifegameInput.setAttribute('type', 'checkbox');
             LifegameInput.setAttribute('id', index_str + '_' + index);
@@ -143,14 +145,14 @@ function ManualFirstIteration(mass, size, ChooseMode) {
 function ScanFirstIteration(size, ChooseMode) {
 
     var elems = document.getElementById('lifegame').getElementsByTagName('input'); //получаем ХТМЛКолекцию внутренностей рожительского дива
-    console.log('сканированный с дома массив в виде HTMLCollection ');
-    console.log(elems);
-    console.log('**************************');
+    //console.log('сканированный с дома массив в виде HTMLCollection ');
+    //console.log(elems);
+    //console.log('**************************');
 
     var mass = Array.prototype.slice.call(elems); //конвертирует массив HTMLColletion в строку
-    console.log('преобразованный в массив, который сосканировали');
-    console.log(mass);
-    console.log('**************************');
+    //console.log('преобразованный в массив, который сосканировали');
+    //console.log(mass);
+    //console.log('**************************');
 
     mass.map(function(elem, index){
 
@@ -161,7 +163,7 @@ function ScanFirstIteration(size, ChooseMode) {
         console.log('что за хуйня?!');
         return;
     }
-    console.log(mass);
+
     mass = mass.reduce(function(previousValue, currentlyValue, index) {
 
     //    console.log(previousValue);
@@ -172,12 +174,30 @@ function ScanFirstIteration(size, ChooseMode) {
             ) && previousValue;
     }, [] );
 
-    var bot = document.getElementById('start_lifegame').removeChild();
+    //console.log('преобразованнный массив в окончательном виде');
+    //console.log(mass);
+    //console.log('**************************');
+
+    var start = document.getElementById('start_lifegame');
+    var sz = document.getElementById('size');
+    var sm = document.getElementById('startmode');
+    var par = start.parentNode;
+    par.removeChild(start);
+    par.removeChild(sz);
+    par.removeChild(sm);
+
+    ClearLifegame();
+
+    Print(mass);
 
     Init(mass, size, ChooseMode);
 }
 
-function Init(mass, size, ChooseMode) {  //функция для тсрта
+function Init(mass, size, ChooseMode) {
+
+    console.log('Вот какой массив в итоге сформировался');
+    console.log(mass);
+    console.log('**************************');
 
     var new_mass = new Array(size).fill(0).map(function(){return new Array(size).fill(0)}); //создаём массив для формирования нового поля итерации
 
@@ -189,6 +209,8 @@ function Init(mass, size, ChooseMode) {  //функция для тсрта
         KlickButton.innerHTML = 'Следующая итерация';
         KlickButton.setAttribute('onclick', 'Klick()');
         document.body.appendChild(KlickButton);
+
+        Klick();
     }
 }
 
@@ -197,9 +219,12 @@ function InitInterval(mass, new_mass) {
     setInterval(function(){
 
      Scan_mass(mass, new_mass); //сканируем текущее поле и генерим новое
+
      new_mass.map(function(str, i){mass[i] = str.slice(0);}); //обновляем данные
      new_mass.map(function(str){str.fill(0);}); //обнуляем временную память
+
      Print(mass);
+
      console.log('новый массив');
      console.log(mass);
      console.log('**************************');
@@ -209,6 +234,7 @@ function InitInterval(mass, new_mass) {
 }
 
 function Klick() {
+
     var elems = document.getElementById('lifegame').getElementsByTagName('*'); //получаем ХТМЛКолекцию внутренностей рожительского дива
     //console.log('сканированный с дома массив в виде HTMLCollection ');
     //console.log(elems);
@@ -261,15 +287,19 @@ mass.reduce((previousValue, currentValue, index){..},[] бежим по массиву, [] в к
             else return 0;
         });
     });
-    //console.log('массив в окончательном виде');
-    //console.log(mass);
-    //console.log('**************************');
+  //  console.log('массив в окончательном виде');
+    console.log(mass);
+ //   console.log('**************************');
 
     var new_mass = new Array(mass.length).fill(0).map(function(){return new Array(mass.length).fill(0)}); //создаём массив для формирования нового поля итерации
+
     Scan_mass(mass, new_mass); //сканируем текущее поле и генерим новое
+
     new_mass.map(function(str, i){mass[i] = str.slice(0);}); //обновляем данные
     new_mass.map(function(str){str.fill(0);}); //обнуляем временную память
+
     Print(mass);
+
     console.log('новый массив');
     console.log(mass);
     console.log('**************************');
@@ -334,9 +364,7 @@ function Edit_mass(mass, new_mass, k, i, j) {
 
 function Print(mass) { //функция вывода результата на страницу
 
-    var lifegame = document.getElementById('lifegame');  //ищем элемент в котором ячейки с полем
-//    console.log(lifegame.getAttribute('id'));
-    lifegame.innerHTML = '';                            //удаляем все дочерние элементы
+    var lifegame =  ClearLifegame();                       //удаляем все дочерние элементы
 
     mass.map(function(str, index, matrix) {
        str.map(function(elem){
