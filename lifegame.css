@@ -23,10 +23,13 @@ body {
     margin-left: 8px;
     border: 1px solid black;
 }
-.life {
+input:checked + label > div, .life {
     background-color: red;
     border: 1px color red;
 }
-.notlife {
+input + label > div .notlife {
     background-color: white;
+}
+#sizearea {
+    width: 300px;
 }
